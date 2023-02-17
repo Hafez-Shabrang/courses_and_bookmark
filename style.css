@@ -1,0 +1,11 @@
+.bookmarked {
+    background-color: orange;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.all-courses {
+    background-color: paleturquoise;
+    padding: 10px;
+    border-radius: 5px;
+}

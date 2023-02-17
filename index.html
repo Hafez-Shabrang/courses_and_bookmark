@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Vuejs</title>
+</head>
+<body>
+    <div id="app">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center my-3">Course</h1>
+                <hr>
+                <div>
+                    <input type="checkbox" v-model="filtered" class="me-2">
+                    <span v-if="filtered">Bookmarked Courses</span>
+                    <span v-else>All Courses</span>
+                </div>
+                <div class="col-md-6 my-3">
+                    <input ref="search" class="form-control" v-autofocus>
+                    <span @click="getSearch" class="btn btn-success my-2">Send</span>
+                </div>
+                <hr>
+                <div v-if="entiryCourses.length != 0">
+                    <div v-for="course in entiryCourses">
+                        <div  class="row"  :class="course.bookmarked ? 'bookmarked' : 'all-courses' ">
+                            <p class="col">{{ course.title }}</p>
+                            <p class="col">{{ course.author }}</p>
+                            <p class="col">{{ course.description }}</p>
+                            <p class="col">{{ course.likes }}</p>
+                            <button class="col btn btn-danger" v-if="course.bookmarked" @click="course.bookmarked = !course.bookmarked">R</button>
+                            <button class="col btn btn-success" v-else @click="course.bookmarked = !course.bookmarked">R</button>
+                        </div>
+                        <hr>
+                    </div>
+                <!-- <div v-else class="alert alert-danger">
+                    Courses is empty
+                </div> -->
+                </div>
+                <hr>
+                <!-- <div class="col-md-6">
+                    <p>Course <input v-model="title" class="form-control"></p>
+                    <p>Author <input v-model="author" class="form-control"></p>
+                    <p>Description <input v-model="description" class="form-control"></p>
+                    <p>Likes <input v-model="likes" class="form-control" type="number"></p>
+                </div>
+                <div>
+                    Likes:
+                    <button @click="increment" class="btn btn-success px-3 mx-2">Increment</button>
+                    <button @click="decrement" class="btn btn-danger px-3 mx-2">Decrement</button>
+                    <button @click="clear" class="btn btn-warning px-3 mx-2">Clear</button>
+                    <button @click="clearAll" class="btn btn-warning px-3 mx-2">Clear All</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+    const { createApp } = Vue
+    createApp({
+
+        data() {
+            return {
+                courses: [
+                    {
+                        title: "Javascript",
+                        author: "Hafez Shabrang",
+                        description: "I love js",
+                        likes: 100,
+                        bookmarked: true
+                    },
+                    {
+                        title: "Python",
+                        author: "Hafez Shabrang",
+                        description: "I love Python",
+                        likes: 100,
+                        bookmarked: true
+                    },
+                    {
+                        title: "Ruby",
+                        author: "Hafez Shabrang",
+                        description: "I love Ruby",
+                        likes: 100,
+                        bookmarked: true
+                    }
+                ],
+                filtered: false
+            }
+        },
+        
+        methods: {
+
+            increment() {
+                this.likes +=1
+            },
+
+            decrement() {
+                this.likes -=1
+            },
+
+            clear() {
+                this.likes = 0
+            },
+
+            clearAll() {
+                this.title = "",
+                this.author = "",
+                this.description = "",
+                this.likes = ""
+            },
+
+            // isHot() {
+            //     if (this.likes >= 100) {
+            //     return true
+            //     } else {
+            //         return false
+            //     }
+            // },
+
+            getSearch() {
+                console.log(this.$refs.search.value)
+            }
+
+        },
+
+        computed: {
+
+
+            entiryCourses() {
+                if (this.filtered) {
+                    return this.bookmarkedCourses
+                } else {
+                    return this.courses
+                }
+            },
+
+            bookmarkedCourses() {
+                return this.courses.filter(course => course.bookmarked)
+            }
+
+        },
+
+        watch: {
+            likes(value) {
+                if (value == 100) {
+                    alert("Congratulations you reach 100 likes")
+                }
+            }
+        },
+
+        // mounted() {
+        //     this.$refs.search.focus()
+        // },
+
+        directives: {
+            autofocus: {
+                mounted(el) {
+                    el.focus()
+                }
+            }
+        }
+
+    }).mount("#app")
+</script>
+</body>
+</html>
+
+
+
